@@ -23,4 +23,9 @@ int main(int argc, char **argv)
   printf("PRINTING STACK FROM MAIN \n");
   printf("\n");
   print_stack(&stack_a);
+  //TODO: 1- Instantiate stack b; 2- Apply any algorithm to sort stack a
 }
+
+//TODO: Tested with
+//1 - ./a.out "aefa" asdfa 11 22a12 "2223 123a1 asdf 33 aa" "adf- as 44" " " "adsfadzxc_ asfd _ 55 a " 55
+//2 - ./a.out "2147483647" 2147483648 "--+-2147483648" -2147483649

@@ -8,10 +8,10 @@ long ft_atoi(const char *str)
   sign = 1;
   while (*str == ' ' || (*str >= 9 && *str <= 13))
     str++;
-  if (*str == '-')
-    sign = -1;
-  if (*str == '+' || *str == '-')
+  while (*str == '+' || *str == '-')
     str++;
+  if (*(str - 1) == '-')
+    sign = -1;
   num = 0;
   while (ft_isdigit(*str))
   {
@@ -20,7 +20,7 @@ long ft_atoi(const char *str)
     if (sign == 1 && num > (long)INT_MAX)
       return (LONG_MAX);
     if (sign == -1 && num > -(long)INT_MIN)
-      return (LONG_MAX);
+      return (LONG_MIN);
   }
   return (num * sign);
 }
@@ -32,6 +32,10 @@ int is_numeric(char *str)
 
   i = 0;
   is_numeric = 1;
+  while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+    i++;
+  while (str[i] == '+' || str[i] == '-')
+    i++;
   while (str[i])
   {
     if (!ft_isdigit(str[i]))
