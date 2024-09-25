@@ -1,14 +1,17 @@
 #include "push_swap.h"
 
-void  init(t_stack *stack)
+void  init(t_stack *stack, int len)
 {
   stack->top = -1;
+  stack->current_size = 0;
+  stack->fixed_size = len;
 }
 
 int push(t_stack *stack, int value)
 {
   if (stack->top == MAX_SIZE - 1)
     return (-1);
+  stack->current_size++;
   return (stack->items[++(stack->top)] = value);
 }
 
@@ -16,6 +19,7 @@ int pop(t_stack *stack)
 {
   if (stack->top == -1)
     return (-1);
+  stack->current_size--;
   return (stack->items[(stack->top)--]);
 }
 

@@ -25,9 +25,8 @@ void  fill_stack(t_stack *stack, int stack_len, char **argv, int argc)
 {
   int number;
 
-  init(stack);
+  init(stack, stack_len);
   while (argc-- > 1 && stack_len)
     stack_len -= add_numbers(stack, argv[argc]);
-  print_stack(stack);
 }
 
