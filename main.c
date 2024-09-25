@@ -1,13 +1,5 @@
 #include "push_swap.h"
 
-void  print_stack(t_stack stack)
-{
-  int num;
-
-  while ((num = pop(&stack)) != -1)
-    printf("%d\n", num);
-}
-
 int main(int argc, char **argv)
 {
   t_stack stack_a;
@@ -18,11 +10,24 @@ int main(int argc, char **argv)
     return (0);
   printf("Arguments Size : %i \n", argc - 1);
   stack_len = get_args_len(argc, argv);
+  if (stack_len < 0 || stack_len == 1)
+    return (printf("Not enought valid arguments or only 1 element\n"), 0);
   printf("Numbers counted from argv : %i\n", stack_len);
+  if (!init_stack(&stack_a, stack_len))
+  {
+    printf("Error: init stack a\n");
+    return (-1);
+  }
+  if ((fill_stack(&stack_a, stack_len, argv, argc)) == -1)
+    return (-1);
+  if (!init_stack(&stack_b, stack_len))
+  {
+    printf("Error: init stack b\n");
+    return (free(stack_a.items), -1);
+  }
 
-  fill_stack(&stack_a, stack_len, argv, argc);
   //TODO: 1- Instantiate stack b; 2- Apply any algorithm to sort stack a
-  init(&stack_b, stack_len);
+
   solve_stacks(&stack_a, &stack_b);
 }
 

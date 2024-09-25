@@ -10,6 +10,8 @@ int add_numbers(t_stack *stack, char *str)
   nums_added = 0;
   words_count = calc_words(str, ' ');
   args = ft_split(str, ' ');
+  if (args == NULL)
+    return (-1);
   while (words_count--)
   {
     if (is_valid(args[words_count], stack))
@@ -21,12 +23,16 @@ int add_numbers(t_stack *stack, char *str)
   return (nums_added);
 }
 
-void  fill_stack(t_stack *stack, int stack_len, char **argv, int argc)
+int fill_stack(t_stack *stack, int stack_len, char **argv, int argc)
 {
-  int number;
+  int numbers_added;
 
-  init(stack, stack_len);
-  while (argc-- > 1 && stack_len)
-    stack_len -= add_numbers(stack, argv[argc]);
+  while (argc-- > 1 && stack_len > 0)
+  {
+    numbers_added = add_numbers(stack, argv[argc]);
+    if (numbers_added == -1)
+      return (free(stack->items), -1);
+    stack_len -= numbers_added;
+  }
+  return (stack_len);
 }
-
