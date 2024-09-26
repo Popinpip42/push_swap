@@ -9,9 +9,11 @@ long ft_atoi(const char *str)
   while (*str == ' ' || (*str >= 9 && *str <= 13))
     str++;
   while (*str == '+' || *str == '-')
+  {
+    if (*str == '-')
+      sign = -1;
     str++;
-  if (*(str - 1) == '-')
-    sign = -1;
+  }
   num = 0;
   while (ft_isdigit(*str))
   {

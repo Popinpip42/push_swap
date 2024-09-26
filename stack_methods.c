@@ -56,47 +56,44 @@ void  copy_stack_items(int *dest, t_stack *stack)
   stack->items = dest;
 }
 
-int push(t_stack *stack, int value)
+int resize_stack(t_stack *stack)
 {
   int *resized_items;
   int new_size;
 
-  stack->current_size++;
-  if (stack->current_size > stack->threshold)
-  {
-    printf("BEFORE PUSH RESIZE - LEN : %d\n", stack->current_size);
-    print_stack(*stack);
-    new_size = stack->fixed_size * 2;
-    resized_items = (int *)malloc(new_size * sizeof(int));
-    if (!resized_items)
-      return (0);
-    stack->fixed_size = new_size;
-    copy_stack_items(resized_items, stack);
-    stack->threshold = (stack->fixed_size / 2) - 1;
-  }
-  stack->items[(stack->top)++] = value;
+  printf("Resizing Stack - Current Size: %d, Threshold: %d\n", stack->current_size, stack->threshold);
+  new_size = stack->fixed_size * 2;
+  resized_items = (int *)malloc(new_size * sizeof(int));
+  if (!resized_items)
+    return (0);
+  stack->fixed_size = new_size;
+  copy_stack_items(resized_items, stack);
+  stack->threshold = (stack->fixed_size / 2) - 1;
+  printf("Resizing Stack - Current Size: %d, Threshold: %d\n", stack->current_size, stack->threshold);
   return (1);
+}
+
+int push(t_stack *stack, int value)
+{
+    stack->current_size++;
+    if (stack->current_size > stack->threshold)
+    {
+        if (!resize_stack(stack))
+            return (0);
+    }
+    stack->items[stack->top++] = value;
+    return (1);
 }
 
 int push_back(t_stack *stack, int value)
 {
-  int *resized_items;
-  int new_size;
-
   stack->current_size++;
   if (stack->current_size > stack->threshold)
   {
-    printf("BEFORE PUSH_BACK RESIZE - LEN : %d\n", stack->current_size);
-    print_stack(*stack);
-    new_size = stack->fixed_size * 2;
-    resized_items = (int *)malloc(new_size * sizeof(int));
-    if (!resized_items)
+    if (!resize_stack(stack))
       return (0);
-    stack->fixed_size = new_size;
-    copy_stack_items(resized_items, stack);
-    stack->threshold = (stack->fixed_size / 2) - 1;
   }
-  stack->items[(stack->bottom)--] = value;
+  stack->items[stack->bottom--] = value;
   return (1);
 }
 
