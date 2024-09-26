@@ -47,14 +47,16 @@ int is_numeric(char *str)
   return (is_numeric);
 }
 
-int is_repeated(int i, t_stack stack)
+int is_repeated(int value, t_stack stack)
 {
-  int num;
+  int i;
 
-  while ((num = pop(&stack)) != -1)
+  i = 0;
+  while ((stack.top - i) > (stack.bottom + 1))
   {
-    if (num == i)
+    if (stack.items[stack.top - 1 - i] == value)
       return (1);
+    i++;
   }
   return (0);
 }

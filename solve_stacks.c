@@ -1,33 +1,19 @@
 #include "push_swap.h"
 
+void  print_stacks(t_stack *stack1, t_stack *stack2)
+{
+  printf("STACK_A\n");
+  print_stack(*stack1);
+  printf("STACK_B\n");
+  print_stack(*stack2);
+}
+
 void  solve_stacks(t_stack *stack_a, t_stack *stack_b)
 {
-  /*
-  printf("\nSTACK_A - CURRENT_LEN: %d \n", stack_a->current_size);
+  printf("\nPRINTING STACK_A - LEN : %d \n", stack_a->current_size);
   print_stack(*stack_a);
-  printf("STACK_B - CURRENT_LEN: %d \n", stack_b->current_size);
-  print_stack(*stack_b);
- */ 
-  /*
-  printf("\nTRYING IF RESIZING WORKS OUT\n");
-  int i = 0;
-  int num = 500;
-  while (i < num / 2)
-  {
-    if (i < (num / 2) / 2)
-      push_back(stack_a, i);
-    else {
-      push(stack_a, i);
-    }
-    i++;
-  }
-  */
-
-  printf("PRINTING STACK_A - LEN : %d \n", stack_a->current_size);
-  print_stack(*stack_a);
-
-
-  //TODO: Implement algorithm (TURK, ...)
-  printf("\nABOUT TO START SOLVING\n");
   
 }
+//TODO: Currently testing with :
+//./a.out "aefa" asdfa 11 22a12 "2223 123a1 asdf 33 aa" "adf- as 44" " " "adsfadzxc_ asfd _ 55 a " 44 55
+//TODO: AND TESTING BY ADding NUM 100 items to the "stack" haha
