@@ -11,6 +11,7 @@
 typedef struct s_stack
 {
   int *items;
+  //int *ideal_indexe
   int current_size;
   int fixed_size;
   int top;

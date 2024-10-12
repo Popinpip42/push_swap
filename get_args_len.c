@@ -65,5 +65,3 @@ int get_args_len(int argc, char **argv)
   }
   return (total_count);
 }
-
-
