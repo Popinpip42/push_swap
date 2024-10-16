@@ -51,14 +51,10 @@ void  solve_stacks(t_stack *stack_a, t_stack *stack_b)
   printf("Stack_a size : %d - Range %d\n", stack_a->current_size, range);
   //Distribution of elements
   printf("Boottom pointer %d - Top pointer %d\n", stack_a->bottom, stack_a->top);
-  int j = 0;
-  while ((stack_a->top - j) > (stack_a->bottom + 1))
-  {
-    printf("Item[%d] - %d\n", stack_a->top - 1 - j, stack_a->items[stack_a->top - 1 -j]);
-    j++;
-  }
 
-  //Ksort-2
+  //TODO: Ksort-1 --- (Move by chunks to the aux stack)
+
+  //TODO: Kosrt-2 --- (Move back to main stack depending on a cost function of nodes)
 
 }
 //TODO: Currently testing with :

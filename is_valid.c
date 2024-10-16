@@ -1,5 +1,6 @@
 #include "push_swap.h"
 
+//TODO: REVIEW THIS FUNCION - MAYBE WE DONT NEED TO RETURN LONG
 long ft_atoi(const char *str)
 {
   long  num;
