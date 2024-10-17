@@ -12,6 +12,13 @@ void  print_stack(t_stack stack)
   }
 }
 
+void  swap_ideal_indexes(t_stack *stack, int index_1, int index_2)
+{
+  stack->ideal_indexes[index_1] = stack->ideal_indexes[index_1] ^ stack->ideal_indexes[index_2];
+  stack->ideal_indexes[index_2] = stack->ideal_indexes[index_1] ^ stack->ideal_indexes[index_2];
+  stack->ideal_indexes[index_1] = stack->ideal_indexes[index_1] ^ stack->ideal_indexes[index_2];
+}
+
 void  copy_stack_items(int *dest, t_stack *stack)
 {
   int i;

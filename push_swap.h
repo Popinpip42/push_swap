@@ -50,6 +50,7 @@ int peek(t_stack *stack);
 void  copy_stack_items(int *dest, t_stack *stack);
 int   resize_stack(t_stack *stack);
 void  print_stack(t_stack stack);
+void  swap_ideal_indexes(t_stack *stack, int index_1, int index_2);
 
 //FT_SPLIT FUCNTIONS
 int   calc_words(const char *s, t_is_separator is_separator);

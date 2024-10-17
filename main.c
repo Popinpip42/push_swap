@@ -29,10 +29,10 @@ int main(int argc, char **argv)
 
   //TODO: could pass transformation function, in this case (ft_atoi()). or (strdup())
   valid_args = get_valid_args(argc, argv, &is_valid_num, &valid_args_len);
+  printf("\n==== Arguments Size : %i \n", argc - 1);
+  printf("==== Numbers counted, valid ones, from argv : %i\n", valid_args_len);
   valid_args = filter_(valid_args, &valid_args_len, &is_num_repeated);
-  printf("Arguments Size : %i \n", argc - 1);
-  printf("Numbers counted, valid ones, from argv : %i\n", valid_args_len);
-  printf("Numbers counted, filtered ones, from argv : %i\n", valid_args_len);
+  printf("==== Numbers counted, filtered ones, from argv : %i\n", valid_args_len);
 
   if (!valid_args)
   {
@@ -48,22 +48,56 @@ int main(int argc, char **argv)
     printf("Error: initializing stack a\n");
     exit(EXIT_FAILURE);
   }
+  printf("\n==== Prepararing stacks function \n");
   if ((fill_stacks(&stack_a, &stack_b, valid_args, valid_args_len)) == -1)
   {
     clean_all(&stack_a, &stack_b);
     printf("Error\n");
     exit(EXIT_FAILURE);
   }
-  printf("\nStack_size after fill %d\n", stack_a.current_size);
+  printf("\n==== Stack_a size after fill %d\n", stack_a.current_size);
+  printf("==== Stack_b size after fill %d\n", stack_a.current_size);
   printf("Printing stacks_a from main call \n");
   print_stack(stack_a);
 
+  printf("Printing stacks_b from main call \n");
+  print_stack(stack_b);
+
+  printf("Printing stacks_a ideal_indexes from main call \n");
+  for (int a = 0; a < valid_args_len; a++)
+    printf("Ideal_Index Item[%d] - %d\n", a+1, stack_a.ideal_indexes[a]);
+  printf("Printing stacks_b ideal_indexes from main call \n");
+  for (int b = 0; b < valid_args_len; b++)
+    printf("Ideal_Index Item[%d] - %d\n", b+1, stack_b.ideal_indexes[b]);
+  //TODO: Try moving ideal_indexes as well
+
+  printf("\n Trying moving ideal_indexes on each instruction\n");
+  //swap(&stack_a);
+  //rotate(&stack_a);
+  //rrotate(&stack_a);
+  push_from(&stack_b, &stack_a);
+
+  printf("==== Printing stacks_a from main call \n");
+  print_stack(stack_a);
+  printf("==== Printing stacks_a ideal_indexes from main call \n");
+  for (int a = 0; a < stack_a.current_size; a++)
+    printf("Ideal_Index_stack_a Item[%d] - %d\n", a+1, stack_a.ideal_indexes[a]);
+
+  printf("==== Printing stacks_b from main call \n");
+  print_stack(stack_b);
+  printf("==== Printing stacks_b ideal_indexes from main call \n");
+  for (int b = 0; b < stack_b.current_size; b++)
+    printf("Ideal_Index_stack_b Item[%d] - %d\n", b+1, stack_b.ideal_indexes[b]);
+
+  //push_from(t_stack *dst_s, t_stack *src_s);
+  //rotate(t_stack *stack);
+  //rrotate(t_stack *stack);
   //solve_stacks(&stack_a, &stack_b);
   clean_all(&stack_a, &stack_b);
   return (0);
 }
 //TODO: Simple compilation w/o Makefile 26/Sept/2024
-// gcc -fsanitize=address -g main.c get_valid_args.c fill_stack.c stack_methods.c split_on.c n_atoi.c solve_stacks.c stack_methods_utils.c instructions.c str_functions.c filter_functions.c
+// gcc -fsanitize=address -g main.c get_valid_args.c fill_stack.c stack_methods.c split_on.c n_atoi.c solve_stacks.c stack_methods_utils.c stack_instructions.c str_functions.c filter_functions.c
 
 //TODO: Tested with
 //1 - ./a.out "aefa" asdfa 11 22a12 "2223 123a1 asdf 33 aa" "adf- as 44" " " "adsfadzxc_ asfd _ 55 a " 55
