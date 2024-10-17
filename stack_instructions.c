@@ -37,7 +37,13 @@ void  push_from(t_stack *dst_s, t_stack *src_s)
   //TODO: if current_size were invalid,
   //for example the (max_size), which is always (valid_args_len)
   //push call should not occur
-  dst_s->ideal_indexes[dst_s->current_size - 1] = src_ideal_index;
+  i = dst_s->current_size - 1;
+  while (i > 0)
+  {
+    swap_ideal_indexes(dst_s, i, i - 1);
+    i--;
+  }
+  dst_s->ideal_indexes[0] = src_ideal_index;
 }
 
 void  rotate(t_stack *stack)
