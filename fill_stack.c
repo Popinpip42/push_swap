@@ -5,44 +5,19 @@ int is_space_char(int c)
   return c == ' ';
 }
 
-int add_numbers(t_stack *stack, char *str)
-{
-  int i;
-  int nums_added;
-  int words_count;
-  char  **args;
-
-  nums_added = 0;
-  words_count = calc_words(str, &is_space_char);
-  args = split_on(str, &is_space_char);
-  if (args == NULL)
-    return (-1);
-  i = 0;
-  while (i < words_count)
-  {
-    if (is_valid(args[i], stack))
-      push_back(stack, (int)ft_atoi(args[i]));
-    else
-      printf("Error at : %s\n", args[i]);
-    i++;
-  }
-  clean_matrix(args);
-  return (nums_added);
-}
-
-int get_ideal_index(int *sorted_nbs, int value)
+int get_ideal_index(int value, int *sorted_nbs, int size)
 {
   int i;
 
   i = 0;
-  while (value != sorted_nbs[i])
+  while (i < size && value != sorted_nbs[i])
     i++;
   //TODO: stack->top will always be or (Origin) for sorting
   //TODO: The stack node, passed as value, wants to be at (stack->top + i) 
   return (i);
 }
 
-int  get_ideal_indexes(t_stack *stack, int size, int *sorted_nums)
+int  get_ideal_indexes(t_stack *stack, int *sorted_nums, int size)
 {
   int *ideal_indexes;
   int current_value;
@@ -53,23 +28,23 @@ int  get_ideal_indexes(t_stack *stack, int size, int *sorted_nums)
     return (0);
   stack->ideal_indexes = ideal_indexes;
   j = 0;
-  while (stack->items[stack->top - j] > stack->items[stack->bottom + 1])
+  while (stack->top - j - 1 > stack->bottom)
   {
-    current_value = stack->items[stack->top - j];
-    stack->ideal_indexes[j] = get_ideal_index(sorted_nums, current_value);
+    current_value = stack->items[stack->top - j - 1];
+    stack->ideal_indexes[j] = get_ideal_index(current_value, sorted_nums, size);
     j++;
   }
   return (1);
 }
 
-void  sort_(int *nums, int n)
+void  sort_(int *nums, int len)
 {
   int key;
 	int i;
 	int j;
 
 	i = 1;
-	while (i < n)
+	while (i < len)
 	{
 		key = nums[i];
 		j = i - 1;
@@ -83,6 +58,33 @@ void  sort_(int *nums, int n)
 	}
 }
 
+int fill_stack(t_stack *stack, int *valid_args, int valid_args_len)
+{
+  int i;
+
+  i = 0;
+  while (i < valid_args_len)
+  {
+    if (!push_back(stack, valid_args[i]))
+      return (0);
+    i++;
+  }
+  return (1);
+}
+
+int fill_stacks(t_stack *stack_a, t_stack *stack_b, int *valid_args, int valid_args_len)
+{
+  if (!fill_stack(stack_a, valid_args, valid_args_len))
+    return (-1);
+  sort_(valid_args, valid_args_len);
+  if (!get_ideal_indexes(stack_a, valid_args, valid_args_len)
+      || !get_ideal_indexes(stack_b, valid_args, valid_args_len))
+    return (-1);
+  return (0);
+}
+
+/*
+//TODO: Rewrite fill_stacks and add_numbers functions
 int fill_stacks(t_stack *stack_a, t_stack *stack_b, int arg_count, char **argv, int argc)
 {
   int numbers_added;
@@ -115,12 +117,36 @@ int fill_stacks(t_stack *stack_a, t_stack *stack_b, int arg_count, char **argv, 
     for (int i = 0; i < arg_count; i++)
       printf("Sorted nums ITEM[%d] - %d\n", i+1, sorted_numbers[i]);
     sort_(sorted_numbers, arg_count);
-    /*
     if (!get_ideal_indexes(stack_a, arg_count, sorted_numbers)
         || !get_ideal_indexes(stack_b, arg_count, sorted_numbers))
       return (free(sorted_numbers), -1);
-    */
   }
   //TODO: change the return value for a valid erorr or success value
   return (free(sorted_numbers), arg_count);
 }
+
+int add_numbers(t_stack *stack, char *str)
+{
+  int i;
+  int nums_added;
+  int words_count;
+  char  **args;
+
+  nums_added = 0;
+  words_count = calc_words(str, &is_space_char);
+  args = split_on(str, &is_space_char);
+  if (args == NULL)
+    return (-1);
+  i = 0;
+  while (i < words_count)
+  {
+    if (is_valid(args[i], stack))
+      push_back(stack, (int)ft_atoi(args[i]));
+    else
+      printf("Error at : %s\n", args[i]);
+    i++;
+  }
+  clean_matrix(args);
+  return (nums_added);
+}
+*/

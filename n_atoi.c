@@ -28,6 +28,8 @@ long ft_atoi(const char *str)
   return (num * sign);
 }
 
+//TODO: OLD SHITY VALIDATION METHODS
+/*
 int is_numeric(char *str)
 {
   int is_numeric;
@@ -75,3 +77,4 @@ int is_valid(char *str, t_stack *stack)
   }
   return (0);
 }
+*/
