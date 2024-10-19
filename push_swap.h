@@ -34,7 +34,8 @@ int   *get_valid_args(int argc, char **argv, t_validation_func validate, int *va
 int   is_valid_num(const char *str);
 
 //CORE FUNCTIONS FOR PUSH_SWAP
-void  solve_stacks(t_stack *stack_a, t_stack *stack_b);
+//void  solve_stacks(t_stack *stack_a, t_stack *stack_b);
+void  solve_stacks(t_stack *stack_a, t_stack *stack_b, int length);
 int   fill_stack(t_stack *stack, int *valid_args, int valid_args_len);
 int   fill_stacks(t_stack *stack_a, t_stack *stack_b, int *valid_args, int valid_args_len);
 

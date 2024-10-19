@@ -19,20 +19,22 @@ int  init_stack(t_stack *stack, int len)
 
 int push(t_stack *stack, int value)
 {
-    stack->current_size++;
-    if (stack->current_size > stack->threshold)
-    {
-        if (!resize_stack(stack))
-            return (0);
-    }
-    stack->items[stack->top++] = value;
-    return (1);
+  stack->current_size++;
+  //if (stack->current_size > stack->threshold)
+  if (stack->top >= stack->fixed_size)
+  {
+      if (!resize_stack(stack))
+          return (0);
+  }
+  stack->items[stack->top++] = value;
+  return (1);
 }
 
 int push_back(t_stack *stack, int value)
 {
   stack->current_size++;
-  if (stack->current_size > stack->threshold)
+  //if (stack->current_size > stack->threshold)
+  if (stack->bottom <= 0)
   {
     if (!resize_stack(stack))
       return (0);
