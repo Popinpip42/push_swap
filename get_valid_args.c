@@ -58,6 +58,50 @@ int is_valid_num(const char *str)
   return (1);
 }
 
+//TODO: This shit counts numbers. IDK What to do with it
+int count_arg(char *arg, t_validation_func validate)
+{
+  char **split_arg;
+  int count;
+  int i;
+
+  count = 0;
+  split_arg = split_on(arg, &isspace);
+  if (!split_arg)
+    return (-1);
+  i = 0;
+  while (split_arg[i] != NULL)
+  {
+    if (validate(split_arg[i]))
+      count++;
+    else
+      printf("-- Error on args %s\n", split_arg[i]);
+    i++;
+  }
+  clean_matrix(split_arg);
+  return (count);
+
+}
+
+int get_valid_args_count(int argc, char **argv, t_validation_func validate)
+{
+  int i;
+  int total_count;
+  int validated_count;
+
+  total_count = 0;
+  i = 1;
+  while (i < argc)
+  {
+    validated_count = count_arg(argv[i], validate);
+    if (validated_count == -1)
+        return (-1);
+    total_count += validated_count;
+    i++;
+  }
+  return (total_count);
+}
+
 //TODO: Reimplementing this sht...
 //TODO: maybe we can pass the transformation function as well, in this case (atoi())
 //Could also pass (strdup())
@@ -77,7 +121,7 @@ int validate_and_get(char *arg, t_validation_func validate, int *valid_args)
   {
     if (validate(split_arg[i]))
     {
-      valid_args[count] = (int)ft_atoi(split_arg[i]);
+      valid_args[count] = ft_atoi(split_arg[i]);
       count++;
     }
     else
@@ -95,7 +139,7 @@ int *get_valid_args(int argc, char **argv, t_validation_func validate, int *vali
   int i;
   int total_count;
 
-  valid_args = malloc(argc * sizeof(int));
+  valid_args = malloc(get_valid_args_count(argc, argv, validate) * sizeof(int));
   if (!valid_args)
       return (NULL);
   total_count = 0;

@@ -60,10 +60,12 @@ char  **clean_matrix(char **matrix);
 char  **split_on(const char *s, t_is_separator is_separator);
 
 //INSTRUCTIONS
-void  swap(t_stack *stack);
-void  push_from(t_stack *dst_s, t_stack *src_s);
-void  rotate(t_stack *stack);
-void  rrotate(t_stack *stack);
+void  swap(t_stack *stack, char stack_name);
+void  push_from(t_stack *dst_s, t_stack *src_s, char dst_name);
+void  rotate(t_stack *stack, char stack_name, int print_it);
+void  rotate_stacks(t_stack *stack_a, t_stack *stack_b);
+void  rrotate(t_stack *stack, char stack_name, int print_it);
+void  rrotate_stacks(t_stack *stack_a, t_stack *stack_b);
 
 //LIBFT_FUNCTIONS
 int     ft_isalpha(int c);
@@ -71,6 +73,7 @@ int     ft_isdigit(int c);
 int     count_nums(char *arg);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlen(const char *s);
-long    ft_atoi(const char *str);
+//long    ft_atoi(const char *str);
+int	ft_atoi(const char *str);
 
 #endif

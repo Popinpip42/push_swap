@@ -56,11 +56,11 @@ int count_r(t_stack *stack, int s_index)
 
 void  solve_stacks(t_stack *stack_a, t_stack *stack_b, int length)
 {
-  printf("\nInitializing SOLVING STACKS\n");
+  //printf("\nInitializing SOLVING STACKS\n");
   //Kort-1
   int s_index;
   int range = m_sqrt(stack_a->current_size);
-  printf("Stack_a size : %d - Range %d\n", stack_a->current_size, range);
+  //printf("Stack_a size : %d - Range %d\n", stack_a->current_size, range);
 
   //TODO: Ksort-1 --- (Move by chunks to the aux stack)
   //Distribution of elements from stack_a to stack_b
@@ -72,24 +72,20 @@ void  solve_stacks(t_stack *stack_a, t_stack *stack_b, int length)
     current_value = stack_a->ideal_indexes[0];
     if (current_value <= s_index)
     {
-      push_from(stack_b, stack_a);
+      push_from(stack_b, stack_a, 'b');
       s_index++;
     }
     else if (current_value <= s_index + range)
     {
-      push_from(stack_b, stack_a);
+      push_from(stack_b, stack_a, 'b');
       s_index++;
       if (!(current_value <= s_index + range))
-      {
-        rotate(stack_a);
-        rotate(stack_b);
-      }
-      else {
-        rotate(stack_b);
-      }
+        rotate_stacks(stack_a, stack_b);
+      else
+        rotate(stack_b, 'b', 1);
     }
     else
-      rotate(stack_a);
+      rotate(stack_a, 'a', 1);
   }
 
   //TODO: Kosrt-2 --- (Move back to main stack depending on a cost function of nodes)
@@ -97,86 +93,32 @@ void  solve_stacks(t_stack *stack_a, t_stack *stack_b, int length)
   int rrb_count;
   int curr_index;
 
+  /*
   printf("\n==== Printing stacks_b ideal_indexes from ksort-2\n");
   for (int a = 0; a < stack_b->current_size; a++)
     printf("Ideal_Index_stack_a Item[%d] - %d\n", a+1, stack_b->ideal_indexes[a]);
+  */
   while (length - 1 >= 0)
   {
-    /*
-    printf("==== Printing stacks_b from solving stacks call \n");
-    print_stack(*stack_b);
-    printf("==== Printing stacks_b ideal_indexes from main call \n");
-    for (int a = 0; a < stack_b->current_size; a++)
-      printf("Ideal_Index_stack_b Item[%d] - %d\n", a+1, stack_b->ideal_indexes[a]);
-    */
     //length is our valid_args_len
     rb_count = count_r(stack_b, length - 1);
     rrb_count = (length + 3) - rb_count;
     curr_index = 0;
-    printf("rb_count %d, rrb_count %d\n", rb_count, rrb_count);
+    //printf("rb_count %d, rrb_count %d\n", rb_count, rrb_count);
     if (rb_count <= rrb_count)
     {
-      //while (curr_index < stack_b->current_size && stack_b->ideal_indexes[curr_index] != length - 1)
-      //while (curr_index < stack_b->current_size)
       while(stack_b->ideal_indexes[curr_index] != length - 1)
-      {
-        /*
-        if (stack_b->ideal_indexes[curr_index] == length - 1)
-          break;
-        */
-        printf("\nid_index %d, curr_index %d , length %d\n", stack_b->ideal_indexes[curr_index], curr_index, length - 1);
-        rotate(stack_b);
-
-        printf("ROTATE COUNT rb < rrb_count : curr_idnex %d\n", curr_index);
-        printf("id_index %d, curr_index %d , length %d\n", stack_b->ideal_indexes[curr_index], curr_index, length - 1);
-        /*
-        rotate(stack_b);
-        curr_index++;
-        printf("==== Printing stacks_b from rb_count <= rrb_count \n");
-        print_stack(*stack_b);
-        */
-        printf("==== Printing stacks_b ideal_indexes from rb_count <= rrb_count \n");
-        for (int a = 0; a < stack_b->current_size; a++)
-          printf("Ideal_Index_stack_b Item[%d] - %d\n", a+1, stack_b->ideal_indexes[a]);
-      }
-      push_from(stack_a, stack_b);
+        rotate(stack_b, 'b', 1);
+      push_from(stack_a, stack_b, 'a');
       length--;
     }
     else
     {
-      //while (curr_index < stack_b->current_size && stack_b->ideal_indexes[curr_index] != length - 1)
-      //while (curr_index < stack_b->current_size)
       while(stack_b->ideal_indexes[curr_index] != length - 1)
-      {
-        /*
-        if (stack_b->ideal_indexes[curr_index] == length - 1)
-          break;
-        */
-        printf("\nid_index %d, curr_index %d , length %d\n", stack_b->ideal_indexes[curr_index], curr_index, length - 1);
-        rrotate(stack_b);
-
-        printf("ROTATE COUNT ELSE: curr_idnex %d\n", curr_index);
-        printf("id_index %d, curr_index %d , length %d\n", stack_b->ideal_indexes[curr_index], curr_index, length - 1);
-        /*
-        rrotate(stack_b);
-        curr_index++;
-        printf("==== Printing stacks_b from ELSE \n");
-        print_stack(*stack_b);
-        */
-        printf("==== Printing stacks_b ideal_indexes from ELSE \n");
-        for (int a = 0; a < stack_b->current_size; a++)
-          printf("Ideal_Index_stack_b Item[%d] - %d\n", a+1, stack_b->ideal_indexes[a]);
-      }
-      push_from(stack_a, stack_b);
+        rrotate(stack_b, 'b', 1);
+      push_from(stack_a, stack_b, 'a');
       length--;
     }
-    /*
-    printf("==== Printing stacks_b from solving stacks call \n");
-    print_stack(*stack_b);
-    printf("==== Printing stacks_b ideal_indexes from main call \n");
-    for (int a = 0; a < stack_b->current_size; a++)
-      printf("Ideal_Index_stack_b Item[%d] - %d\n", a+1, stack_b->ideal_indexes[a]);
-    */
   }
 }
 

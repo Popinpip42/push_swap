@@ -51,7 +51,7 @@ int resize_stack(t_stack *stack)
   int *resized_items;
   int new_size;
 
-  printf("Resizing Stack - Current Size: %d, Threshold: %d\n", stack->current_size, stack->threshold);
+  //printf("Resizing Stack - Current Size: %d, Threshold: %d\n", stack->current_size, stack->threshold);
   new_size = stack->fixed_size * 2;
   resized_items = (int *)malloc(new_size * sizeof(int));
   if (!resized_items)
@@ -59,6 +59,6 @@ int resize_stack(t_stack *stack)
   stack->fixed_size = new_size;
   copy_stack_items(resized_items, stack);
   stack->threshold = (stack->fixed_size / 2) - 1;
-  printf("Resizing Stack - Current Size: %d, Threshold: %d\n", stack->current_size, stack->threshold);
+  //printf("Resizing Stack - Current Size: %d, Threshold: %d\n", stack->current_size, stack->threshold);
   return (1);
 }
