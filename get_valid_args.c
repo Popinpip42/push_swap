@@ -33,12 +33,10 @@ int is_valid_num(const char *str)
   result = 0;
   while (isspace(*str))
       str++;
-  if (*str == '\0')
-      return (0);
   while (*str == '-' || *str == '+')
   {
       if (*str == '-')
-          sign = -1;
+          sign *= -1;
       str++;
   }
   if (!isdigit(*str))
@@ -53,9 +51,8 @@ int is_valid_num(const char *str)
       result = result * 10 + digit;
       str++;
   }
-  if (*str != '\0' && !isspace(*str))
-      return (0);
-  return (1);
+  while (isspace(*str)) str++;
+  return (*str == '\0');
 }
 
 //TODO: This shit counts numbers. IDK What to do with it
@@ -153,7 +150,7 @@ int *get_valid_args(int argc, char **argv, t_validation_func validate, int *vali
     i++;
   }
   *valid_args_size = total_count;
-  return (realloc(valid_args, total_count * sizeof(int)));
+  return (valid_args);
 }
 
 /*

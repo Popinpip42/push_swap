@@ -7,7 +7,7 @@ void  print_stack(t_stack stack)
   i = 0;
   while ((stack.top - i) > (stack.bottom + 1))
   {
-    printf("Item[%d] - %d\n", stack.top - 1 - i, stack.items[stack.top - 1 -i]);
+    dprintf(2, "Item[%d] - %d\n", stack.top - 1 - i, stack.items[stack.top - 1 -i]);
     i++;
   }
 }

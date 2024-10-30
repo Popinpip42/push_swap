@@ -68,7 +68,7 @@ void  rotate(t_stack *stack, char stack_name, int print_it)
   }
   if (print_it)
   {
-    write(1, "r", 2);
+    write(1, "r", 1);
     write(1, &stack_name, 1);
     write(1, "\n", 1);
   }

@@ -55,14 +55,14 @@ int main(int argc, char **argv)
   }
 
   solve_stacks(&stack_a, &stack_b, valid_args_len);
-/*
-  printf("\n stack_a size : %d\n", stack_a.current_size);
-  printf("==== Printing stacks_a from main call \n");
+  dprintf(2, "\n stack_a size : %d\n", stack_a.current_size);
+  dprintf(2, "==== Printing stacks_a from main call \n");
   print_stack(stack_a);
-  printf("stack_b size : %d\n", stack_b.current_size);
-  printf("==== Printing stacks_b from main call \n");
+  dprintf(2, "stack_b size : %d\n", stack_b.current_size);
+  dprintf(2, "==== Printing stacks_b from main call \n");
   print_stack(stack_b);
 
+  /*
   printf("==== Printing stacks_a ideal_indexes from main call \n");
   for (int a = 0; a < stack_a.current_size; a++)
     printf("Ideal_Index_stack_a Item[%d] - %d\n", a+1, stack_a.ideal_indexes[a]);
@@ -72,7 +72,7 @@ int main(int argc, char **argv)
   return (0);
 }
 //TODO: Simple compilation w/o Makefile 26/Sept/2024
-// gcc -fsanitize=address -g main.c get_valid_args.c fill_stack.c stack_methods.c split_on.c n_atoi.c solve_stacks.c stack_methods_utils.c stack_instructions.c stack_instructions_2.c str_functions.c filter_functions.c
+// cc -fsanitize=address -g main.c get_valid_args.c fill_stack.c stack_methods.c split_on.c n_atoi.c solve_stacks.c stack_methods_utils.c stack_instructions.c stack_instructions_2.c str_functions.c filter_functions.c
 
 //TODO: Tested with
 //1 - ./a.out "aefa" asdfa 11 22a12 "2223 123a1 asdf 33 aa" "adf- as 44" " " "adsfadzxc_ asfd _ 55 a " 55
