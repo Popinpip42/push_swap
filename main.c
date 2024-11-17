@@ -1,75 +1,83 @@
 #include "push_swap.h"
 
-void  clean_stack(t_stack *stack)
+void	clean_stack(t_stack *stack)
 {
-  if (stack)
-  {
-    if (stack->items)
-      free(stack->items);
-    if (stack->ideal_indexes)
-      free(stack->ideal_indexes);
-  }
+	if (stack)
+	{
+		if (stack->items)
+			free(stack->items);
+		if (stack->ideal_indexes)
+			free(stack->ideal_indexes);
+	}
 }
 
-void clean_all(t_stack *stack1, t_stack *stack2)
+void	clean_all(t_stack *stack1, t_stack *stack2)
 {
-  clean_stack(stack1);
-  clean_stack(stack2);
+	clean_stack(stack1);
+	clean_stack(stack2);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-  t_stack stack_a;
-  t_stack stack_b;
-  int     valid_args_len;
-  int     *valid_args;
+	t_stack	stack_a;
+	t_stack	stack_b;
+	int		valid_args_len;
+	int		*valid_args;
 
-  //TODO: could pass transformation function, in this case (ft_atoi()). or (strdup())
-  valid_args = get_valid_args(argc, argv, &is_valid_num, &valid_args_len);
-  /*
-  printf("\n==== Arguments Size : %i \n", argc - 1);
-  printf("==== Numbers counted, valid ones, from argv : %i\n", valid_args_len);
-  */
-  valid_args = filter_(valid_args, &valid_args_len, &is_num_repeated);
-  //printf("==== Numbers counted, filtered ones, from argv : %i\n", valid_args_len);
+	//TODO: could pass transformation function, in this case (ft_atoi()). or (strdup())
+	valid_args = get_valid_args(argc, argv, &is_valid_num, &valid_args_len);
+	/*
+	printf("\n==== Arguments Size : %i \n", argc - 1);
+	printf("==== Numbers counted, valid ones, from argv : %i\n", valid_args_len);
+	*/
+	valid_args = filter_(valid_args, &valid_args_len, &is_num_repeated);
+	//printf("==== Numbers counted, filtered ones, from argv : %i\n", valid_args_len);
 
-  if (!valid_args)
-  {
-    printf("Error getting valids_args vector\n");
-    if (valid_args_len == 0 || valid_args_len == 1)
-      printf("Not enought valid arguments or only 1 element\n");
-    exit(EXIT_FAILURE);
-  }
+	if (!valid_args)
+	{
+		printf("Error getting valids_args vector\n");
+		if (valid_args_len == 0 || valid_args_len == 1)
+			printf("Not enought valid arguments or only 1 element\n");
+		exit(EXIT_FAILURE);
+	}
 
-  if (!init_stack(&stack_a, valid_args_len) || !init_stack(&stack_b, valid_args_len))
-  {
-    clean_all(&stack_a, &stack_b);
-    printf("Error: initializing stack a\n");
-    exit(EXIT_FAILURE);
-  }
-  if ((fill_stacks(&stack_a, &stack_b, valid_args, valid_args_len)) == -1)
-  {
-    clean_all(&stack_a, &stack_b);
-    printf("Error\n");
-    exit(EXIT_FAILURE);
-  }
+	if (!init_stack(&stack_a, valid_args_len) || !init_stack(&stack_b, valid_args_len))
+	{
+		clean_all(&stack_a, &stack_b);
+		printf("Error: initializing stack a\n");
+		exit(EXIT_FAILURE);
+	}
+	if ((fill_stacks(&stack_a, &stack_b, valid_args, valid_args_len)) == -1)
+	{
+		clean_all(&stack_a, &stack_b);
+		printf("Error\n");
+		exit(EXIT_FAILURE);
+	}
 
-  solve_stacks(&stack_a, &stack_b, valid_args_len);
-  dprintf(2, "\n stack_a size : %d\n", stack_a.current_size);
-  dprintf(2, "==== Printing stacks_a from main call \n");
-  print_stack(stack_a);
-  dprintf(2, "stack_b size : %d\n", stack_b.current_size);
-  dprintf(2, "==== Printing stacks_b from main call \n");
-  print_stack(stack_b);
+	//UNSORTED:
+	/*
+	dprintf(2, "\n stack_a size : %d\n", stack_a.current_size);
+	dprintf(2, "==== Printing stacks_a from main call \n");
+	print_stack(stack_a);
+	*/
 
-  /*
-  printf("==== Printing stacks_a ideal_indexes from main call \n");
-  for (int a = 0; a < stack_a.current_size; a++)
-    printf("Ideal_Index_stack_a Item[%d] - %d\n", a+1, stack_a.ideal_indexes[a]);
-*/
+	solve_stacks(&stack_a, &stack_b, valid_args_len);
 
-  clean_all(&stack_a, &stack_b);
-  return (0);
+	/*
+	dprintf(2, "\n stack_a size : %d\n", stack_a.current_size);
+	dprintf(2, "==== Printing stacks_a from main call \n");
+	print_stack(stack_a);
+	dprintf(2, "stack_b size : %d\n", stack_b.current_size);
+	dprintf(2, "==== Printing stacks_b from main call \n");
+	print_stack(stack_b);
+
+	printf("==== Printing stacks_a ideal_indexes from main call \n");
+	for (int a = 0; a < stack_a.current_size; a++)
+		printf("Ideal_Index_stack_a Item[%d] - %d\n", a+1, stack_a.ideal_indexes[a]);
+	*/
+
+	clean_all(&stack_a, &stack_b);
+	return (0);
 }
 //TODO: Simple compilation w/o Makefile 26/Sept/2024
 // cc -fsanitize=address -g main.c get_valid_args.c fill_stack.c stack_methods.c split_on.c n_atoi.c solve_stacks.c stack_methods_utils.c stack_instructions.c stack_instructions_2.c str_functions.c filter_functions.c
@@ -86,7 +94,7 @@ int main(int argc, char **argv)
 //5 - ./a.out 333 368 485 417 351 369 412 354 295 383 127 29 61 461 74 237 266 222 82 341 9 28 44 334 189 411 357 98 346 385 207 355 441 247 18 7 480 401 198 217 3 194 73 118 339 68 364 248 145 166 394 136 94 186 451 124 34 426 254 15 108 38 273 430 304 202 463 391 30 493 287 375 42 442 407 60 449 390 20 210 289 458 123 335 196 459 143 106 410 23 213 25 31 456 16 195 239 21 93 96
 
 //TODO: TEST CODE FOR MOVING IDEAL INDEXES ALONG INSTRUCTIONS
-  /*
+/*
   printf("\n==== Trying moving ideal_indexes on each instruction\n");
   swap(&stack_a);
   rotate(&stack_a);
@@ -97,44 +105,44 @@ int main(int argc, char **argv)
   print_stack(stack_a);
   printf("==== Printing stacks_a ideal_indexes from main call \n");
   for (int a = 0; a < stack_a.current_size; a++)
-    printf("Ideal_Index_stack_a Item[%d] - %d\n", a+1, stack_a.ideal_indexes[a]);
+	printf("Ideal_Index_stack_a Item[%d] - %d\n", a+1, stack_a.ideal_indexes[a]);
 
   printf("==== Printing stacks_b from main call \n");
   print_stack(stack_b);
   printf("==== Printing stacks_b ideal_indexes from main call \n");
   for (int b = 0; b < stack_b.current_size; b++)
-    printf("Ideal_Index_stack_b Item[%d] - %d\n", b+1, stack_b.ideal_indexes[b]);
+	printf("Ideal_Index_stack_b Item[%d] - %d\n", b+1, stack_b.ideal_indexes[b]);
   */
 
 //TODO: TEST CODE FOR RESIZING
-  /*
+/*
   printf("\nTRYING IF RESIZING WORKS OUT\n");
   int i = 0;
   int num = 100;
   while (i < num / 2)
   {
-    if (i < (num / 2) / 2)
-      push_back(stack_a, i);
-    else {
-      push(stack_a, i);
-    }
-    i++;
+	if (i < (num / 2) / 2)
+	  push_back(stack_a, i);
+	else {
+	  push(stack_a, i);
+	}
+	i++;
   }
   */
 
 //TODO: TEST CODE FOR POP FUNCTIONS
-  /*
+/*
   printf("Trying pop function\n");
   int value;
   while (stack_a->current_size > 0)
   {
-    pop_back(stack_a, &value);
-    printf("Popped -> %d\n", value);
+	pop_back(stack_a, &value);
+	printf("Popped -> %d\n", value);
   }
   */
 
 //TODO: TEST CODE FOR INSTRUCTIONS
-  /*
+/*
   printf("Trying instructions based on push_swap PDF\n");
   printf("--- SA\n");
   swap(stack_a);
@@ -161,4 +169,3 @@ int main(int argc, char **argv)
   push_from(stack_a, stack_b);
   print_stacks(stack_a, stack_b);
   */
-

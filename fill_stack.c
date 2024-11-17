@@ -1,47 +1,47 @@
 #include "push_swap.h"
 
-int is_space_char(int c)
+int	is_space_char(int c)
 {
-  return c == ' ';
+	return (c == ' ');
 }
 
-int get_ideal_index(int value, int *sorted_nbs, int size)
+int	get_ideal_i(int value, int *sorted_nbs, int size)
 {
-  int i;
+	int	i;
 
-  i = 0;
-  while (i < size && value != sorted_nbs[i])
-    i++;
-  //TODO: stack->top will always be or (Origin) for sorting
-  //TODO: The stack node, passed as value, wants to be at (stack->top + i) 
-  return (i);
+	i = 0;
+	while (i < size && value != sorted_nbs[i])
+		i++;
+	//TODO: stack->top will always be or (Origin) for sorting
+	//TODO: The stack node, passed as value, wants to be at (stack->top + i) 
+	return (i);
 }
 
-int  get_ideal_indexes(t_stack *stack, int *sorted_nums, int size)
+int	get_ideal_indexes(t_stack *stack, int *sorted_nums, int size)
 {
-  int *ideal_indexes;
-  int current_value;
-  int j;
+	int	*ideal_indexes;
+	int	current_value;
+	int	j;
 
-  ideal_indexes = (int *)malloc(size * sizeof(int));
-  if (!ideal_indexes)
-    return (0);
-  stack->ideal_indexes = ideal_indexes;
-  j = 0;
-  while (stack->top - j - 1 > stack->bottom)
-  {
-    current_value = stack->items[stack->top - j - 1];
-    stack->ideal_indexes[j] = get_ideal_index(current_value, sorted_nums, size);
-    j++;
-  }
-  return (1);
+	ideal_indexes = (int *)malloc(size * sizeof(int));
+	if (!ideal_indexes)
+		return (0);
+	stack->ideal_indexes = ideal_indexes;
+	j = 0;
+	while (stack->top - j - 1 > stack->bottom)
+	{
+		current_value = stack->items[stack->top - j - 1];
+		stack->ideal_indexes[j] = get_ideal_i(current_value, sorted_nums, size);
+		j++;
+	}
+	return (1);
 }
 
-void  sort_(int *nums, int len)
+void	sort_(int *nums, int len)
 {
-  int key;
-	int i;
-	int j;
+	int	key;
+	int	i;
+	int	j;
 
 	i = 1;
 	while (i < len)
@@ -58,29 +58,29 @@ void  sort_(int *nums, int len)
 	}
 }
 
-int fill_stack(t_stack *stack, int *valid_args, int valid_args_len)
+int	fill_stack(t_stack *stack, int *valid_args, int valid_args_len)
 {
-  int i;
+	int	i;
 
-  i = 0;
-  while (i < valid_args_len)
-  {
-    if (!push_back(stack, valid_args[i]))
-      return (0);
-    i++;
-  }
-  return (1);
+	i = 0;
+	while (i < valid_args_len)
+	{
+		if (!push_back(stack, valid_args[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
-int fill_stacks(t_stack *stack_a, t_stack *stack_b, int *valid_args, int valid_args_len)
+int	fill_stacks(t_stack *stack_a, t_stack *stack_b, int *valid_args, int valid_args_len)
 {
-  if (!fill_stack(stack_a, valid_args, valid_args_len))
-    return (-1);
-  sort_(valid_args, valid_args_len);
-  if (!get_ideal_indexes(stack_a, valid_args, valid_args_len)
-      || !get_ideal_indexes(stack_b, valid_args, valid_args_len))
-    return (-1);
-  return (0);
+	if (!fill_stack(stack_a, valid_args, valid_args_len))
+		return (-1);
+	sort_(valid_args, valid_args_len);
+	if (!get_ideal_indexes(stack_a, valid_args, valid_args_len)
+		|| !get_ideal_indexes(stack_b, valid_args, valid_args_len))
+		return (-1);
+	return (0);
 }
 
 /*

@@ -1,125 +1,129 @@
 #include "push_swap.h"
 
-int get_msb(int n)
+int	get_msb(int n)
 {
-  int msb;
+	int	msb;
 
-  if (n == 0)
-    return (0);
-  msb = 0;
-  while (n >>= 1)
-    msb++;
-  return (msb);
+	if (n == 0)
+		return (0);
+	msb = 0;
+	while (n)
+	{
+		msb++;
+		n >>= 1;
+	}
+	return (msb);
 }
 
-int m_sqrt(int n)
+int	m_sqrt(int n)
 {
-  int a;
-  int result;
+	int	a;
+	int	result;
 
-  a = 1 << get_msb(n);
-  result = 0;
-  while (a != 0)
-  {
-    if ((result + a) * (result + a) <= n)
-        result += a;
-    a >>= 1;
-  }
-  return (result);
+	a = 1 << get_msb(n);
+	result = 0;
+	while (a != 0)
+	{
+		if ((result + a) * (result + a) <= n)
+			result += a;
+		a >>= 1;
+	}
+	return (result);
 }
 
-void  print_stacks(t_stack *stack1, t_stack *stack2)
+void	print_stacks(t_stack *stack1, t_stack *stack2)
 {
-  printf("STACK_A\n");
-  print_stack(*stack1);
-  printf("STACK_B\n");
-  print_stack(*stack2);
+	printf("STACK_A\n");
+	print_stack(*stack1);
+	printf("STACK_B\n");
+	print_stack(*stack2);
 }
 
-int count_r(t_stack *stack, int s_index)
+int	count_r(t_stack *stack, int s_index)
 {
-  int counter;
-  int current_ideal_index;
+	int	counter;
+	int	current_ideal_index;
 
-  counter = 0;
-  while (counter < stack->current_size)
-  {
-    //This start comparing from the ideal_indexes array
-    //-- The TOP ELEMENT CORRESPONDS TO (0) FROM IDEAL_INDEXES
-    current_ideal_index = stack->ideal_indexes[counter];
-    if (current_ideal_index == s_index)
-      break;
-    counter++;
-  }
-  return (counter);
+	counter = 0;
+	while (counter < stack->current_size)
+	{
+		//This start comparing from the ideal_indexes array
+		//-- The TOP ELEMENT CORRESPONDS TO (0) FROM IDEAL_INDEXES
+		current_ideal_index = stack->ideal_indexes[counter];
+		if (current_ideal_index == s_index)
+			break ;
+		counter++;
+	}
+	return (counter);
 }
 
 void  solve_stacks(t_stack *stack_a, t_stack *stack_b, int length)
 {
-  //printf("\nInitializing SOLVING STACKS\n");
-  //Kort-1
-  int s_index;
-  int range = m_sqrt(stack_a->current_size);
-  //printf("Stack_a size : %d - Range %d\n", stack_a->current_size, range);
+	int	s_index;
+	int	range;
+	int	j;
+	int	current_value;
 
-  //TODO: Ksort-1 --- (Move by chunks to the aux stack)
-  //Distribution of elements from stack_a to stack_b
-  s_index = 0;
-  int j = 0;
-  int current_value;
-  while (stack_a->current_size > 0)
-  {
-    current_value = stack_a->ideal_indexes[0];
-    if (current_value <= s_index)
-    {
-      push_from(stack_b, stack_a, 'b');
-      s_index++;
-    }
-    else if (current_value <= s_index + range)
-    {
-      push_from(stack_b, stack_a, 'b');
-      s_index++;
-      if (!(current_value <= s_index + range))
-        rotate_stacks(stack_a, stack_b);
-      else
-        rotate(stack_b, 'b', 1);
-    }
-    else
-      rotate(stack_a, 'a', 1);
-  }
+	range = m_sqrt(stack_a->current_size);
+	//printf("Stack_a size : %d - Range %d\n", stack_a->current_size, range);
 
-  //TODO: Kosrt-2 --- (Move back to main stack depending on a cost function of nodes)
-  int rb_count;
-  int rrb_count;
-  int curr_index;
+	//TODO: Ksort-1 --- (Move by chunks to the aux stack)
+	//Distribution of elements from stack_a to stack_b
+	s_index = 0;
+	j = 0;
+	while (stack_a->current_size > 0)
+	{
+		current_value = stack_a->ideal_indexes[0];
+		if (current_value <= s_index)
+		{
+			push_from(stack_b, stack_a, 'b');
+			s_index++;
+		}
+		else if (current_value <= s_index + range)
+		{
+			push_from(stack_b, stack_a, 'b');
+			s_index++;
+			if (!(current_value <= s_index + range))
+				rotate_stacks(stack_a, stack_b);
+			else
+				rotate(stack_b, 'b', 1);
+		}
+		else
+			rotate(stack_a, 'a', 1);
+	}
 
-  /*
+	//TODO: Kosrt-2 --- (Move back to main stack depending on a cost function of nodes)
+	int rb_count;
+	int rrb_count;
+	int curr_index;
+
+	/*
   printf("\n==== Printing stacks_b ideal_indexes from ksort-2\n");
   for (int a = 0; a < stack_b->current_size; a++)
-    printf("Ideal_Index_stack_a Item[%d] - %d\n", a+1, stack_b->ideal_indexes[a]);
+	printf("Ideal_Index_stack_a Item[%d] - %d\n", a+1, stack_b->ideal_indexes[a]);
   */
-  while (length - 1 >= 0)
-  {
-    //length is our valid_args_len
-    rb_count = count_r(stack_b, length - 1);
-    rrb_count = (length + 3) - rb_count;
-    curr_index = 0;
-    //printf("rb_count %d, rrb_count %d\n", rb_count, rrb_count);
-    if (rb_count <= rrb_count)
-    {
-      while(stack_b->ideal_indexes[curr_index] != length - 1)
-        rotate(stack_b, 'b', 1);
-      push_from(stack_a, stack_b, 'a');
-      length--;
-    }
-    else
-    {
-      while(stack_b->ideal_indexes[curr_index] != length - 1)
-        rrotate(stack_b, 'b', 1);
-      push_from(stack_a, stack_b, 'a');
-      length--;
-    }
-  }
+	while (length - 1 >= 0)
+	{
+		//length is our valid_args_len
+		rb_count = count_r(stack_b, length - 1);
+		rrb_count = (length + 3) - rb_count;
+		curr_index = 0;
+		//printf("rb_count %d, rrb_count %d\n", rb_count, rrb_count);
+		if (rb_count <= rrb_count)
+		{
+			while (stack_b->ideal_indexes[curr_index] != length - 1)
+				rotate(stack_b, 'b', 1);
+			push_from(stack_a, stack_b, 'a');
+			length--;
+		}
+		else
+		{
+			while (stack_b->ideal_indexes[curr_index] != length - 1)
+				rrotate(stack_b, 'b', 1);
+			push_from(stack_a, stack_b, 'a');
+			length--;
+		}
+	}
 }
 
 //TODO: CODE FOR DEBUGGING Ksort-1
